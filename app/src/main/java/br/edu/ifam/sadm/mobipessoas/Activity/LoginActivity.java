@@ -112,19 +112,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
          focusView = mPasswordView;
          cancel = true;
          */
-
-        if(usuario.getEmail().isEmpty() || usuario.getSenha().isEmpty()) {
-
-            Toast.makeText(LoginActivity.this, R.string.senha_ou_email_em_branco, Toast.LENGTH_SHORT).show();
+        if(!verificaEmail(usuario.getEmail())) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.requestFocus();
+        }
+        else if(!verificaSenha(usuario.getSenha())) {
+            mPasswordView.setError(getString(R.string.error_invalid_email));
+            mPasswordView.requestFocus();
         }
         else {
+            showProgress(true);
             autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
             autenticacao.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
+                    //showProgress(false);
                     if (task.isSuccessful()) {
-
                         abrirTelaPrincipal();
                         Toast.makeText(LoginActivity.this, R.string.sucesso_login, Toast.LENGTH_SHORT).show();
                     } else {
@@ -177,12 +180,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-    private boolean isEmailValid(String email) {
+    private boolean verificaEmail(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") && !email.isEmpty();
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean verificaSenha(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
@@ -279,4 +282,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 }
-
