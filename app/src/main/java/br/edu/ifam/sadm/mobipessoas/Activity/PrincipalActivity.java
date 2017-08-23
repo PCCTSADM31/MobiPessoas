@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import br.edu.ifam.sadm.mobipessoas.R;
 
-public class MainActivity extends AppCompatActivity {
+public class PrincipalActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
